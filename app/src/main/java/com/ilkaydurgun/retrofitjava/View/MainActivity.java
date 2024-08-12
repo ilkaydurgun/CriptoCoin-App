@@ -1,6 +1,7 @@
 package com.ilkaydurgun.retrofitjava.View;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.recyclerview.widget.RecyclerView;
 
 import android.os.Bundle;
 
@@ -22,15 +23,18 @@ import retrofit2.converter.gson.GsonConverterFactory;
 public class MainActivity extends AppCompatActivity {
 
     //https://pro-api.coinmarketcap.com/v1/cryptocurrency/listings/latest?CMC_PRO_API_KEY=7ab71a14-8ba2-4c0f-b7be-d3f0ee9a3a3a
-
+    //https://raw.githubusercontent.com/atilsamancioglu/K21-JSONDataSet/master/crypto.json
     ArrayList<CriptoModel> criptoModels;
-    private String BASE_URL = "https://pro-api.coinmarketcap.com/v1/cryptocurrency/listings/";
+    private String BASE_URL = "https://pro-api.coinmarketcap.com/";
     Retrofit retrofit;
-
+    RecyclerView recyclerView;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
+
+        recyclerView =findViewById(R.id.recyclerView);
 
         Gson gson = new GsonBuilder().setLenient().create();
 
@@ -56,7 +60,8 @@ public class MainActivity extends AppCompatActivity {
 
                         for (CriptoModel criptoModel : criptoModels){
 
-                            System.out.println( criptoModel);
+                            System.out.println(criptoModel);
+
 
                         }
 
