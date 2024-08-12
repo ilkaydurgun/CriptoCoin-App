@@ -1,8 +1,11 @@
-package com.ilkaydurgun.retrofitjava;
+package com.ilkaydurgun.retrofitjava.View;
 
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.os.Bundle;
+
+import com.ilkaydurgun.retrofitjava.Model.CriptoModel;
+import com.ilkaydurgun.retrofitjava.R;
 
 public class MainActivity extends AppCompatActivity {
 

@@ -1,4 +1,4 @@
-package com.ilkaydurgun.retrofitjava;
+package com.ilkaydurgun.retrofitjava.Model;
 
 import com.google.gson.annotations.SerializedName;
 
