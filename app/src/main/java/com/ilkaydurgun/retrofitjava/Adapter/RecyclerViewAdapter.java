@@ -19,7 +19,7 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapte
 
     private ArrayList<CriptoModel> criptoList;
 
-    private String[] colors={"#00b02f","#8168f2","#d2ed05","#d60804","#04c1d6","#04c1d6","#700478"};
+    private String[] colors={"#00b02f","#8168f2","#d2ed05","#d60804","#04c1d6","#c46500","#c40266"};
 
     public RecyclerViewAdapter(ArrayList<CriptoModel> criptoList) {
         this.criptoList = criptoList;
@@ -54,13 +54,13 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapte
 
             super(itemView);
 
-
+            textName= itemView.findViewById(R.id.textName);
+            textPrice=itemView.findViewById(R.id.textPrice);
         }
 
         public void bind(CriptoModel criptoModel, String[] colors, Integer position){
-            itemView.setBackgroundColor(Color.parseColor(colors[position % 8]));
-            textName= itemView.findViewById(R.id.textName);
-            textPrice=itemView.findViewById(R.id.textPrice);
+            itemView.setBackgroundColor(Color.parseColor(colors[position % colors.length]));
+
             textName.setText(criptoModel.symbol);
             textPrice.setText(criptoModel.price);
 
