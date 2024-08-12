@@ -16,10 +16,15 @@
     import java.util.ArrayList;
     import java.util.List;
 
+    import io.reactivex.Scheduler;
+    import io.reactivex.android.schedulers.AndroidSchedulers;
+    import io.reactivex.disposables.CompositeDisposable;
+    import io.reactivex.schedulers.Schedulers;
     import retrofit2.Call;
     import retrofit2.Callback;
     import retrofit2.Response;
     import retrofit2.Retrofit;
+    import retrofit2.adapter.rxjava2.RxJava2CallAdapterFactory;
     import retrofit2.converter.gson.GsonConverterFactory;
 
     public class MainActivity extends AppCompatActivity {
@@ -32,6 +37,8 @@
         RecyclerView recyclerView;
 
         RecyclerViewAdapter recyclerViewAdapter;
+
+        CompositeDisposable compositeDisposable;
         @Override
         protected void onCreate(Bundle savedInstanceState) {
             super.onCreate(savedInstanceState);
@@ -44,6 +51,7 @@
 
             retrofit = new Retrofit.Builder()
                     .baseUrl(BASE_URL)
+                    .addCallAdapterFactory(RxJava2CallAdapterFactory.create())
                     .addConverterFactory(GsonConverterFactory.create(gson))
                     .build();
 
@@ -53,6 +61,13 @@
 
         private void loadData(){
             CriptoAPI criptoAPI = retrofit.create(CriptoAPI.class);
+
+            compositeDisposable = new CompositeDisposable();
+            compositeDisposable.add(criptoAPI.getData()
+                    .subscribeOn(Schedulers.io())
+                    .observeOn(AndroidSchedulers.mainThread())
+                    .subscribe(this::handlerResponse));
+            /*
             Call<List<CriptoModel>> call = criptoAPI.getData();
             call.enqueue(new Callback<List<CriptoModel>>() {
                 @Override
@@ -78,6 +93,22 @@
                     t.printStackTrace();
                 }
             });
+            */
+        }
+        private void handlerResponse(List<CriptoModel>criptoModelList){
 
+            criptoModels = new ArrayList<>(criptoModelList) ;
+
+
+            recyclerView.setLayoutManager(new LinearLayoutManager(MainActivity.this));
+            recyclerViewAdapter = new RecyclerViewAdapter(criptoModels);
+            recyclerView.setAdapter(recyclerViewAdapter);
+
+
+        }
+
+        @Override
+        protected void onDestroy() {
+            super.onDestroy();
         }
     }
